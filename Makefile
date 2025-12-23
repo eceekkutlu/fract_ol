@@ -1,5 +1,5 @@
-NAME = fract_ol
-SRCS = fracto_utils.c
+NAME = fractol
+SRCS = fractol_utils.c fractol.c fractol_control.c
 OBJS = $(SRCS:.c=.o)
 
 MLX_PATH = ./minilibx-linux
@@ -11,17 +11,13 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-
-
-.PHONY: all clean fclean re
-
 all: $(LIBFT) $(MLX) $(NAME)
 
 $(LIBFT):
-	make bonus -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX):
-	make -C $(MLX_PATH)
+	$(MAKE) -C $(MLX_PATH)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
@@ -31,11 +27,13 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
-	make -C $(LIBFT_DIR) clean
-	make -C $(MLX_PATH) clean
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean
 	$(RM) $(NAME)
-	make -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+.PHONY: all clean fclean re
